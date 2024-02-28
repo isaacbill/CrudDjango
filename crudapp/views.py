@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from .forms import CreateUserForm,LoginForm,CreateRecordForm,UpdtaeRecordForm
+from .forms import CreateUserForm,LoginForm,CreateRecordForm,UpdateRecordForm
 
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate
@@ -56,7 +56,7 @@ def dashboard(request):
     context = {'records': my_records}
     return render(request, 'crudapp/dashboard.html', context=context)
 
-#Create a recorcd
+#Create a record
 @login_required(login_url='login')
 def create_record(request):
 
@@ -72,9 +72,44 @@ def create_record(request):
     context = {'form' : form}
     return render(request, 'crudapp/create-record.html', context= context)
 
+#update a record
 
+@login_required(login_url='login')
+def update_record(request,pk):
 
+    record = Records.objects.get(id=pk)
 
+    form = UpdateRecordForm(instance=record)
+    if request.method =='POST':
+        form = UpdateRecordForm(request.POST, instance=record)
+
+        if form.is_valid():
+            form.save()
+
+            return redirect('dashboard')
+    
+    context = {'form' : form}
+    return render(request, 'crudapp/update-record.html', context= context)
+
+#read or view singular record
+
+@login_required(login_url='login')
+def singular_record(request,pk):
+    
+    all_records = Records.objects.get(id=pk)
+
+    context = {'record' :all_records}
+
+    return render (request, 'crudapp/view-record.html', context=context)
+
+#delete a record
+@login_required(login_url='login')
+def delete_record(request,pk):
+
+    record = Records.objects.get(id=pk)
+
+    record.delete()
+    return redirect('dashboard')
 
 #user logout
 def user_logout(request):

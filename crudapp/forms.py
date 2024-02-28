@@ -27,7 +27,7 @@ class CreateRecordForm(forms.ModelForm):
         model = Records
         fields = ['first_name','last_name','email','phone','address','city','county','country']
 
-class UpdtaeRecordForm(forms.ModelForm):
+class UpdateRecordForm(forms.ModelForm):
     class Meta:
 
         model = Records
