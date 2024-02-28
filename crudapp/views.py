@@ -4,7 +4,8 @@ from .forms import CreateUserForm,LoginForm
 
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate
-
+from django.contrib.auth.decorators import login_required
+from .models import Records
 #home page
 def home(request):
 
@@ -44,9 +45,23 @@ def login(request):
             if user is not None:
                 auth.login(request, user)
 
-                #return redirect
+                return redirect('dashboard')
     context ={'form' :form}
     return render(request, 'crudapp/login.html', context = context)
+
+
+@login_required(login_url='login')
+def dashboard(request):
+    my_records = Records.objects.all()
+    context = {'records': my_records}
+    return render(request, 'crudapp/dashboard.html', context=context)
+
+
+
+
+
+
+
 
 #user logout
 def user_logout(request):
