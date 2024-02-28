@@ -6,6 +6,8 @@ from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from .models import Records
+
+from django.contrib import messages
 #home page
 def home(request):
 
@@ -22,6 +24,7 @@ def register(request):
         if form.is_valid():
 
             form.save()
+            messages.success(request,'Account created successfully!')
             return redirect('login')
         
     context ={ 'form':form}
@@ -66,7 +69,7 @@ def create_record(request):
 
         if form.is_valid():
             form.save()
-
+            messages.success(request,'record was created successfully!')
             return redirect('dashboard')
     
     context = {'form' : form}
@@ -85,6 +88,8 @@ def update_record(request,pk):
 
         if form.is_valid():
             form.save()
+
+            messages.success(request,'Record updated successfully!')
 
             return redirect('dashboard')
     
@@ -109,11 +114,13 @@ def delete_record(request,pk):
     record = Records.objects.get(id=pk)
 
     record.delete()
+    messages.success(request,'Record deleted successfully!')
     return redirect('dashboard')
 
 #user logout
 def user_logout(request):
     
     auth.logout(request)
+    messages.success(request,'Logout success!')
     return redirect('login')
 

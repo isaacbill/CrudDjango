@@ -2,12 +2,12 @@
 
 {% block content %}
 
-<h5>welcome to the dashboard page! {{user}} </h5>
+<h5>welcome to the dashboard page! {{user}} 👋</h5>
 
 <hr>
 
 <a class="btn btn-outline-primary btn-sm" href="{% url 'create-record' %}">
-    create a new Record 
+    create a new Record &nbsp; <i class="fa fa-plus-circle" aria-hidden="true"></i>
 </a>
 <hr>
 
@@ -48,7 +48,7 @@
             <td>{{record.county}}</td>
             <td>{{record.country}}</td>
             <td>{{record.creation_date}}</td>
-            <td><a href="{% url 'record' record.id %}">View</a></td>
+            <td><a href="{% url 'record' record.id %}"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
         </tr>
         {% endfor %}
 
